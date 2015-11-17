@@ -1,0 +1,624 @@
+var width = document.getElementById("vis").clientWidth;
+var height = document.getElementById("vis").clientHeight;
+var svg = d3.select("#vis").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+   var partijen = [
+		{"pid": "nva", "naam": "N-VA", "score": 31.9, "cumul": 31.9,"color": "#f9b919"},
+		{"pid": "cdv", "naam": "CD&V", "score": 20.5, "cumul": 52.4,"color": "#f47d2a"},
+		{"pid": "vld", "naam": "Open VLD", "score": 14.2, "cumul": 66.6, "color": "#0098d8"},
+		{"pid": "spa", "naam": "s.pa", "score": 14, "cumul": 80.6, "color": "#df2326"},
+		{"pid": "groen", "naam": "Groen", "score": 8.7, "cumul": 89.3,"color": "#008479"},
+		{"pid": "vb", "naam": "Vlaams Belang", "score": 5.9, "cumul": 95.2, "color": "#FFE800"},
+		{"pid": "pvda", "naam": "PVDA", "score": 2.5, "cumul": 97.7, "color": "#e8312a"},
+		{"pid": "andere", "naam": "Andere", "score": 2.3, "cumul": 100, "color": "#b2b2b2"},
+	];
+
+	var partijscores = [0,0,0,0,0,0,0,0];
+	var diffperc = [0,0,0,0,0,0,0,0];
+	var electionscores = partijen.map(function(party) {return party.score; });
+	
+	var xScale = d3.scale.linear().domain([0,100]).range([0,width]);
+
+	var countertext = svg.append("text")
+		.attr("x", width*0.8)
+		.attr("y", height/4 + 50)
+		.attr("id", "countertext")
+		.text("0")
+		.style("fill", "#ccc")
+		.style("font-size", 72)
+		.style("opacity", 1)
+		.style("visibility", "hidden");
+
+    //Initialize function for the circles
+    function circlesinit(number,color,pid,cumul,score) {
+		var data = [];
+		var i;
+	    for (i = 0; i < number; i ++) {
+	    	var datum = {};
+	    	datum.color = color;
+	    	datum.cumul = cumul;
+	    	datum.score = score;
+	    	data.push(datum);
+	    };
+
+	    var circle = svg.selectAll("circle.party")
+	    	.data(data)
+	    	.enter()
+	    	.append("circle")
+	    	.attr("r",0)
+	      	.attr("cy", function (d) {return height*Math.random();})
+			.attr("cx", function (d) {return width *Math.random();})
+	      	.style("fill", "#ccc")
+			.style("opacity", 1)
+			.attr("class", pid);
+		circle.transition()
+			.delay(function(d,i) {return i*10 })
+			.duration(2000)
+			.attr("r", function(d) { return 2 + Math.random()*10; });
+	    };
+
+	//Call the initialize function for the circles
+	for (j = 0; j < partijen.length ; j++) {
+		circlesinit(partijen[j].score*10, partijen[j].color, partijen[j].id, partijen[j].cumul, partijen[j].score);
+	}
+
+	function showcolor() {
+		var circles = d3.selectAll("circle");
+		d3.selectAll("circle").transition()
+			.duration(4000)
+			.style("fill", function (d) {return d.color; });
+		enableScroll();
+		d3.selectAll(".feedback1").transition().delay(4000).duration(1000).style("opacity", 1);
+	}
+
+	function sort() {
+		var sep = 10;
+		var circles = d3.selectAll("circle").transition()
+			.duration(2000)
+			.delay(function(d,i) {return i*2 })
+			.attr("cx", function(d) {return xScale(d.cumul - Math.random()*(d.score)) ; });
+		d3.selectAll(".feedback2").transition().delay(4000).duration(1000).style("opacity", 1);
+	}
+
+	function lineup() {
+		var circles = d3.selectAll("circle").transition()
+			.duration(2000)
+			.delay(function(d,i) {return i*2 })
+			.attr("cy", height*0.8)
+			.attr("r", 4)
+		barchart();
+		enableScroll();
+		d3.selectAll(".feedback3").transition().delay(3000).duration(1000).style("opacity", 1);
+	}
+
+	function barchart() {
+		var rects = svg.selectAll("rect.election")
+			.data(partijen)
+			.enter()
+			.append("rect")
+			.attr("class", "election")
+			.attr("x", function(d) { return xScale(d.cumul - d.score);})
+			.attr("y", height*0.8-10)
+			.attr("height", 20)
+			.attr("width", function(d) { return xScale(d.score); })
+			.style("fill", function(d) { return d.color; })
+			.style("opacity", 0);
+		rects.transition().delay(function(d,i) {return i*500 ; }).duration(2000).style("opacity", 1);
+
+		var electionresults = svg.selectAll("text.electionresult")
+				.data(partijen.slice(0,7))
+				.enter()
+				.append("text")
+				.attr("x", function(d,i) {return xScale(d.cumul - d.score/2); })
+				.attr("y", height*0.8 - 15)
+				.style("fill", function(d) { return d.color; })
+				.style("font-size", 20)
+				.style("opacity", 0)
+				.text(function(d) {return d.score ;})
+				.attr("id", function(d,i) {return "aantal" + i; })
+				.attr("class", "electionresult")
+				.attr("text-anchor", "middle");
+		electionresults.transition().delay(function(d,i) {return i*500 ; }).duration(1000).style("opacity", 0.8);
+
+		//party names
+			var partynames = svg.selectAll("text.partyname")
+				.data(partijen.slice(0,5))
+				.enter()
+				.append("text")
+				.attr("x", function(d,i) {return xScale(d.cumul - d.score/2); })
+				.attr("y", height*0.8 + 40)
+				.style("fill", function(d) { return d.color; })
+				.style("font-size", 20)
+				.style("opacity", 0)
+				.text(function(d) {return d.naam ;})
+				//.attr("id", function(d,i) {return "aantal" + i; })
+				.attr("class", "partyname")
+				.attr("text-anchor", "middle");
+		partynames.transition().delay(function(d,i) {return i*500 ; }).duration(1000).style("opacity", 0.8);
+	}
+
+		function moveup() {
+		var circles = d3.selectAll("circle").transition()
+			.duration(2000)
+			.attr("cy", function(d) {return height*0.2*Math.random(); })
+			.attr("cx", function(d) {return width*Math.random(); })
+			.attr("r", function(d) { return 2 + Math.random()*10; })
+			.style("fill", "#ccc")
+			.style("opacity", 0.5);
+		d3.selectAll("rect.election").transition().duration(2000).attr("y", 0.9*height);
+		d3.selectAll("text.electionresult").transition().duration(2000).attr("y", 0.9*height + 40);
+		d3.selectAll("text.partyname").transition().duration(2000).attr("y", 0.9*height).style("opacity", 0);
+		d3.selectAll(".feedback4").transition().delay(2000).duration(1000).style("opacity", 1);
+		enableScroll();
+	}
+
+		//initialize elements for containing the poll results
+		svg.selectAll("rect.poll")
+			.data(partijen)
+			.enter()
+			.append("rect")
+			.attr("class", "poll")
+			.attr("x", 0)
+			.attr("y", height*0.9 - 40)
+			.attr("height", 20)
+			.attr("width", 0)
+			.style("fill", function(d) { return d.color; });
+
+		svg.selectAll("text.polltext")
+			.data(partijen)
+			.enter()
+			.append("text")
+			.attr("class", "polltext")
+			.attr("text-anchor", "middle")
+			.style("font-size", 20)
+			.attr("x", 0)
+			.attr("y", height*0.9 - 60)
+			.style("fill", function(d) { return d.color; })
+			.style("opacity", 0)
+			.text("");
+
+		//difference bar chart
+		svg.selectAll("rect.diff")
+			.data(partijen)
+			.enter()
+			.append("rect")
+			.attr("class", "diff")
+			.attr("x", width/2)
+			.attr("y", function(d,i) {return i*24 + height/4; })
+			.attr("height", 20)
+			.attr("width", 0)
+			.style("opacity", 0)
+			.style("fill", function(d) { return d.color; });
+
+		svg.selectAll("text.difftext")
+			.data(partijen)
+			.enter()
+			.append("text")
+			.attr("class", "difftext")
+			.attr("text-anchor", "middle")
+			.style("font-size", 18)
+			.attr("x", 0)
+			.attr("y", function(d,i) { return i*24 + height/4 + 16})
+			.style("fill", function(d) { return d.color; })
+			.style("opacity", 0)
+			.text("");
+
+			//grid of difference bar charts
+		for ( x = 0; x < 4; x++) {
+			for (y = 0; y < 2; y++) {
+		svg.selectAll("rect.diffgrid")
+			.data(partijen)
+			.enter()
+			.append("rect")
+			.attr("class", "gridbar diff" + x + y)
+			.attr("x", 80 + x * width/4)
+			.attr("y", function(d,i) {return 100 + i*24 + 300*y; })
+			.attr("height", 20)
+			.attr("width", 0)
+			.style("opacity", 1)
+			.style("fill", function(d) { return d.color; });
+
+		svg.selectAll("text.diffgrid")
+			.data(partijen)
+			.enter()
+			.append("text")
+			.attr("class", "difftext" + x + y)
+			.attr("text-anchor", "middle")
+			.style("font-size", 18)
+			.attr("x", 0)
+			.attr("y", function(d,i) { return 100 + i*24 + 300*y + 15})
+			.style("fill", function(d) { return d.color; })
+			.style("opacity", 0)
+			.text("0");
+			}
+		}
+
+	var bisect = d3.bisector(function(d) {return d.cumul; }).left;
+
+	var totalcount = 0;
+	function choice(numbers) {
+		var rate;
+		switch (numbers) {
+			case 1: rate = 2000; break;
+			case 10: rate = 200; break;
+			case 100: rate = 50; break;
+			case 1000: rate = 10; break;
+		}
+		console.log(rate);
+
+		var bisect = d3.bisector(function(d) {return d.cumul; }).left;
+
+		//random datagenarator
+		var randdata = [];
+		for (i = 0; i < numbers ; i++) {
+			var partijindex = bisect(partijen, Math.random()*100);
+	    	var datum = {};
+	    	datum.color = partijen[partijindex].color;
+	    	datum.cumul = partijen[partijindex].cumul;
+	    	datum.score = partijen[partijindex].score;
+	    	datum.partijind = partijindex;
+	    	randdata.push(datum);
+	    };
+
+	    svg.selectAll("circle.new")
+	    	.data(randdata)
+	    	.enter()
+	    	.append("circle")
+	    	.attr("class", "new")
+	    	.attr("r",0)
+	    	.attr("cx", function() { return width*Math.random(); })
+	    	.attr("cy", function() { return height*0.2*Math.random(); })
+	    	.style("fill", function(d) {return d.color; })
+	    	.style("opacity", 1)
+	    	.call(interpoly, 1500, function(d,i) { return i*rate})
+			.call(interpolx, 1500, function(d,i) { return i*rate})
+			.call(interpolr, 1500, function(d,i) { return i*rate});
+	};
+
+	//animation functions
+	function update(partyindex) {
+		//update counter
+		totalcount = totalcount + 1;
+
+		d3.select("#countertext").style("visibility", "visible");
+		d3.select("#countertext").text(totalcount);
+
+		//update poll scores
+		partijscores[partyindex.partijind] = partijscores[partyindex.partijind] + 1;
+		scoresperc = partijscores.map(function(score) {return Math.round(score/totalcount*1000)/10 ; });
+		
+		diffperc.forEach(function(element, index, array) {
+			diffperc[index] = scoresperc[index] - electionscores[index];
+		});
+
+		if (totalcount > 7) {
+			d3.selectAll(".feedback5").transition().duration(500).style("opacity", 1);
+			enableScroll();
+		}
+
+		if (totalcount > 99) {
+			d3.selectAll(".feedback7").transition().duration(500).style("opacity", 1);
+			enableScroll();
+		}
+
+		if (totalcount > 999) {
+			var absdiff = diffperc.map(Math.abs);
+			var max = d3.max(absdiff);
+			var partymax = partijen[absdiff.indexOf(max)].naam;
+			var partycolor = partijen[absdiff.indexOf(max)].color;
+			d3.select("#diffmax").text(Math.round(max*10)/10 + " %").style("color", partycolor);
+			d3.select("#partijmax").text(partymax).style("color", partycolor);
+			d3.selectAll(".feedback8").transition().duration(500).style("opacity", 1);
+			enableScroll();
+		}
+
+		//update diff barchart
+		d3.selectAll("rect.diff")
+			.data(diffperc).transition().duration(50)
+			.attr("x", function(d,i) {
+					if (d < 0) {
+						return width/2 - Math.abs(xScale(d));
+					}
+					else { return width/2;}
+				})
+			.attr("width", function(d) {return Math.abs(xScale(d)); });
+
+		//update difftext
+		d3.selectAll(".difftext")
+			.data(diffperc).transition().duration(200)
+			.attr("x", function(d,i) {
+					if(d > 0) {
+						return width/2 + xScale(d) + 2;
+					}
+					else {return width/2 + xScale(d) - 2; }
+				})
+			.attr("text-anchor", function(d) { 
+				if (d > 0) {
+					return "start" ;
+				}
+				else {
+				return "end" ; 
+				}
+			})
+			.text(function(d,i) { 
+				if (d > 0) {
+					return "+" + Math.round(d*10,1)/10 ;
+				}
+				else {
+				return Math.round(d*10,1)/10 ; 
+				}
+			});
+
+		//update poll barchart
+		d3.selectAll("rect.poll")
+			.data(scoresperc).transition().duration(200)
+			.attr("x", function(d,i) { 
+				if (i > 0) {
+					return xScale(scoresperc.slice(0,i).reduce(function(previousValue, currentValue, index, array) {
+  						return previousValue + currentValue;
+					})
+				)}
+			})
+			.attr("width", function(d) {return xScale(d); });
+
+		//update poll results
+		d3.selectAll(".polltext")
+			.data(scoresperc).transition().duration(200)
+			.attr("x", function(d,i) {
+				if (i > 0) {
+					return xScale(scoresperc.slice(0,i).reduce(function(previousValue, currentValue, index, array) {
+  						return previousValue + currentValue;
+				 		}) + d/2
+					)}
+				else { return xScale(d/2); }
+				})
+			.text(function(d,i) { return d ; })
+			.style("opacity", function(d) {
+				if (d > 0) { return 0.8; }
+				else { return 0; }
+			});
+	}
+
+	function showdiff() {
+		d3.selectAll("rect.diff, .difftext, .feedback6").transition().delay(200).style("opacity", 1);
+		enableScroll();
+	}
+
+	function reset() {
+		partijscores = [0,0,0,0,0,0,0,0];
+		diffperc = [0,0,0,0,0,0,0,0];
+		totalcount = 0;
+
+		d3.select("#countertext").text("");
+		d3.selectAll("rect.diff, rect.election").transition().duration(1000).attr("width",0);
+		d3.selectAll("text.difftext, text.partyname, text.electionresult").text("");
+		d3.selectAll("rect.poll").transition().duration(1000).attr("width",0);
+		d3.selectAll("text.polltext").text("");
+		d3.selectAll("circle").transition()
+			.duration(2000)
+			.attr("cy", function (d) {return height*Math.random();})
+			.attr("cx", function (d) {return width *Math.random();})
+			.style("opacity", 0.2);
+	}
+
+	var pollindex = 0;
+	d3.selectAll(".pollgenerator").on("click", function() {generatepoll(pollindex); });
+
+	function generatepoll(pollind) {
+		if (pollindex == 0) {
+			reset();
+		}
+		if (pollindex == 7) {
+			d3.selectAll(".feedback10").transition().delay(15000).duration(1000).style("opacity", 1);
+		}
+		var xind,
+			yind;
+		if (pollind < 4 ) {
+			xind = pollind;
+			yind = 0;
+		}
+		else {
+			xind = pollind - 4; 
+			yind = 1;
+		}
+		pollindex = pollindex + 1;
+
+		var polldata = [0,0,0,0,0,0,0,0];
+		var pollperc = [0,0,0,0,0,0,0,0];
+		var polldiff = [0,0,0,0,0,0,0,0];
+		var pollcounter = 0;
+		var rectsel = "rect.diff" + xind + yind;
+		var textsel = ".difftext" + xind + yind;
+
+		var anim = setInterval(function() {animatepoll(1000); },1);
+
+		function animatepoll(pollsize) {
+			if (pollcounter == pollsize) {clearInterval(anim); }
+			pollcounter = pollcounter + 1;
+			//random number, bisect to partyindex
+			var partijindex = bisect(partijen, Math.random()*100);
+
+			//add to polldata
+			polldata[partijindex] = polldata[partijindex] + 1;
+			
+			//calculate difference with electionresult
+			pollperc = polldata.map(function(score) {return Math.round(score/pollcounter*1000)/10 ; });
+			pollperc.forEach(function(element, index, array) {
+				pollperc[index] = Math.round((pollperc[index] - electionscores[index])*100)/100;
+			});
+			d3.selectAll(rectsel)
+					.data(pollperc).transition().duration(20)
+					.attr("width", function(d) {return xScale(Math.abs(d)); } )
+					.attr("x", function(d,i) {
+						if (d < 0) {
+							return 80  + xind*200 - Math.abs(xScale(d));
+						}
+						else { return 80 + xind*200 ;}
+					});
+			d3.selectAll(textsel)
+				.data(pollperc).transition().duration(20)
+				.attr("x", function(d,i) {
+					if(d > 0) {
+						return 80 + 200* xind + xScale(d) + 2;
+					}
+					else {return 80 + 200*xind + xScale(d) - 2; }
+				})
+				.attr("text-anchor", function(d) { 
+					if (d > 0) {
+						return "start" ;
+						}
+					else {
+						return "end" ; 
+						}
+					})
+				.text(function(d,i) { 
+					if (d > 0) {
+						return "+" + Math.round(d*10,1)/10 ;
+					}
+					else {
+					return Math.round(d*10,1)/10 ; 
+					}
+				})
+				.style("opacity", function(d) {
+					if (pollcounter > 100) {
+						return 1;
+					}
+					else {
+						return 0;
+					}
+				});
+			}
+		}
+
+	function sortbars(){
+		var griddata = d3.selectAll(".gridbar").data();
+		var zeroes = griddata.filter(function(value) { return value == 0 }).length;
+		var twos = griddata.filter(function(value) { return value > 2 || value < - 2 }).length;
+		var max = d3.max(griddata);
+		d3.select("#zeroes").text(zeroes);
+		d3.select("#twos").text(twos);
+		d3.select("#maxdev").text(max);
+
+		d3.selectAll(".feedback11").transition().delay(2000).duration(1000).style("opacity", 1);
+		enableScroll();
+
+		for ( x = 0; x < 4; x++) {
+			for (y = 0; y < 2; y++) {
+				//Move the bars
+				d3.selectAll(".diff" + x + y)
+					.transition()
+					.duration(2000)
+					.attr("x", function(d,i) {
+						if (i < 4) {
+							if (d > 0) {
+								return 80 + 200*i;
+							}
+							else {
+								return 80 + 200*i - xScale(Math.abs(d));
+							}
+						}
+						else {
+							if (d > 0) {
+								return 80 + 200*(i - 4);
+							}
+							else {
+								return 80 + 200*(i - 4) - xScale(Math.abs(d));
+							}
+						}
+					})
+					.attr("y", function(d,i) {
+						//bovenste bars van bovenste rij
+						if (i < 4 && y < 1) {
+							return 100 + 24*x; 
+						}
+						//onderste bars van bovenste rij
+						else if (i > 3 && y < 1) {
+							return 100 + 24*x + 300;
+						}
+						//bovenste bars van onderste rij
+						else if (i < 4 && y > 0 ) {
+							return 100 + 24*(x + 4);
+						}
+						//onderste bars van onderste rij
+						else {
+							return 100 + 24*(x + 4) + 300;
+						}
+					});
+
+					//Move the text
+					d3.selectAll(".difftext" + x + y)
+					.transition()
+					.duration(2000)
+					.attr("x", function(d,i) {
+						if (i < 4) {
+							if (d > 0) {
+								return 80 + 200*i + xScale(d) + 2;
+							}
+							else {
+								return 80 + 200*i - xScale(Math.abs(d)) - 2;
+							}
+						}
+						else {
+							if (d > 0) {
+								return 80 + 200*(i - 4) + xScale(d) + 2;
+							}
+							else {
+								return 80 + 200*(i - 4) - xScale(Math.abs(d)) - 2;
+							}
+						}
+					})
+					.attr("y", function(d,i) {
+						//bovenste bars van bovenste rij
+						if (i < 4 && y < 1) {
+							return 100 + 24*x + 15; 
+						}
+						//onderste bars van bovenste rij
+						else if (i > 3 && y < 1) {
+							return 100 + 24*x + 300 + 15;
+						}
+						//bovenste bars van onderste rij
+						else if (i < 4 && y > 0 ) {
+							return 100 + 24*(x + 4) + 15;
+						}
+						//onderste bars van onderste rij
+						else {
+							return 100 + 24*(x + 4) + 300 + 15;
+						}
+					});
+			}
+		}
+	}
+	
+
+	function interpolx(circle, duration, delay) {
+  		circle.transition("interpolx")
+		.ease("sin")
+		.delay(delay)
+      	.duration(duration)
+      	.each("end", update)
+      	.attrTween("cx", function tween(d, i, a) {
+  				return d3.interpolate(a, xScale(d.cumul - d.score*Math.random()));
+					})
+      	.remove();
+	 }
+    
+    function interpoly(circle, duration, delay) {
+  		circle.transition("interpoly")
+		.ease("back")
+		.delay(delay)
+      	.duration(duration)
+      	.attrTween("cy", function tween(d, i, a) {
+  				return d3.interpolate(a, height*0.8 + 30);
+					})
+	}
+
+	 function interpolr(circle, duration, delay) {
+  		circle.transition("interpolr")
+		.delay(delay)
+      	.duration(duration)
+      	.attrTween("r", function tween(d, i, a) {
+  				return d3.interpolate(a, 10);
+					})
+	}
