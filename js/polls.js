@@ -1,5 +1,6 @@
 var width = document.getElementById("vis").clientWidth;
 var height = document.getElementById("vis").clientHeight;
+var textposition = height - 130;
 var svg = d3.select("#vis").append("svg")
       .attr("width", width)
       .attr("height", height);
@@ -64,12 +65,21 @@ var svg = d3.select("#vis").append("svg")
 		circlesinit(partijen[j].score*10, partijen[j].color, partijen[j].id, partijen[j].cumul, partijen[j].score);
 	}
 
+    d3.selectAll(".step").style("visibility", "hidden").style("top", (2*textposition) + "px");
+    var header = d3.select("#header").style("visibility", "visible").style("top", "0px");
+    var nextstep = d3.select("#step1").style("visibility", "visible").style("opacity", 0.2).style("top", textposition + "px");
+    d3.select("a.next").on("click", function() {
+        header.style("visibility", "hidden");
+        d3.select("#step1").transition().duration(2000).style("top", "0px").style("opacity", 1);
+        d3.select("#step2").transition().duration(2000).style("visibility", "visible").style("opacity", 0.2).style("top", textposition + "px");
+    });
+
 	function showcolor() {
 		var circles = d3.selectAll("circle");
 		d3.selectAll("circle").transition()
 			.duration(4000)
 			.style("fill", function (d) {return d.color; });
-		enableScroll();
+		//enableScroll();
 		d3.selectAll(".feedback1").transition().delay(4000).duration(1000).style("opacity", 1);
 	}
 

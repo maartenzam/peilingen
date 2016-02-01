@@ -21,8 +21,10 @@ html, body {
 	width: 33.33%;
 	position: absolute;
 	top: 0;
+    bottom: 0;
 	left: 0;
 	font-family: 'Crimson Text', serif;
+    overflow: hidden;
 }
 
 p {
@@ -43,6 +45,8 @@ p {
 	/*margin-bottom: 500px;*/
 	height: 800px;
 	margin-top: 0px;
+    position: absolute;
+    top: 20px;
 }
 
 #text-content {
