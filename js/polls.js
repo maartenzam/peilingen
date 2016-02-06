@@ -1,5 +1,6 @@
 var width = document.getElementById("vis").clientWidth;
 var height = document.getElementById("vis").clientHeight;
+var textposition = height - 130;
 var svg = d3.select("#vis").append("svg")
       .attr("width", width)
       .attr("height", height);
@@ -63,13 +64,32 @@ var svg = d3.select("#vis").append("svg")
 	for (j = 0; j < partijen.length ; j++) {
 		circlesinit(partijen[j].score*10, partijen[j].color, partijen[j].id, partijen[j].cumul, partijen[j].score);
 	}
+    
+    //navigation of the steps
+    var activestep = 0;
+    //all text starts at the bottom
+    d3.selectAll(".step").style("top", (2*textposition) + "px");
+    //make first step visible and put on top, second step peaks at the bottom
+    var header = d3.select("#step0").style("visibility", "visible").style("top", "0px");
+    var nextstep = d3.select("#step1").style("visibility", "visible").style("opacity", 0.2).style("top", textposition + "px");
+    
+    d3.selectAll("a.next").on("click", function() {
+        var currstep = "#step" + activestep;
+        var nextstep = "#step" + (activestep + 1);
+        var secnextstep = "#step" + (activestep + 2);
+        
+        d3.select(currstep).transition().duration(2000).style("top", -textposition + "px").style("opacity", 0);
+        d3.select(nextstep).style("visibility", "visible").transition().duration(2000).style("top", "0px").style("opacity", 1);
+        //d3.select(secnextstep).transition().duration(2000).style("visibility", "visible").style("opacity", 0.2).style("top", textposition + "px");
+        
+        activestep = activestep + 1;
+    });
 
 	function showcolor() {
 		var circles = d3.selectAll("circle");
 		d3.selectAll("circle").transition()
 			.duration(4000)
 			.style("fill", function (d) {return d.color; });
-		enableScroll();
 		d3.selectAll(".feedback1").transition().delay(4000).duration(1000).style("opacity", 1);
 	}
 
@@ -89,7 +109,6 @@ var svg = d3.select("#vis").append("svg")
 			.attr("cy", height*0.8)
 			.attr("r", 4)
 		barchart();
-		enableScroll();
 		d3.selectAll(".feedback3").transition().delay(3000).duration(1000).style("opacity", 1);
 	}
 
@@ -151,7 +170,6 @@ var svg = d3.select("#vis").append("svg")
 		d3.selectAll("text.electionresult").transition().duration(2000).attr("y", 0.9*height + 40);
 		d3.selectAll("text.partyname").transition().duration(2000).attr("y", 0.9*height).style("opacity", 0);
 		d3.selectAll(".feedback4").transition().delay(2000).duration(1000).style("opacity", 1);
-		enableScroll();
 	}
 
 		//initialize elements for containing the poll results
@@ -246,7 +264,6 @@ var svg = d3.select("#vis").append("svg")
 			case 100: rate = 50; break;
 			case 1000: rate = 10; break;
 		}
-		console.log(rate);
 
 		var bisect = d3.bisector(function(d) {return d.cumul; }).left;
 
@@ -295,12 +312,10 @@ var svg = d3.select("#vis").append("svg")
 
 		if (totalcount > 7) {
 			d3.selectAll(".feedback5").transition().duration(500).style("opacity", 1);
-			enableScroll();
 		}
 
 		if (totalcount > 99) {
 			d3.selectAll(".feedback7").transition().duration(500).style("opacity", 1);
-			enableScroll();
 		}
 
 		if (totalcount > 999) {
@@ -311,7 +326,6 @@ var svg = d3.select("#vis").append("svg")
 			d3.select("#diffmax").text(Math.round(max*10)/10 + " %").style("color", partycolor);
 			d3.select("#partijmax").text(partymax).style("color", partycolor);
 			d3.selectAll(".feedback8").transition().duration(500).style("opacity", 1);
-			enableScroll();
 		}
 
 		//update diff barchart
@@ -383,7 +397,6 @@ var svg = d3.select("#vis").append("svg")
 
 	function showdiff() {
 		d3.selectAll("rect.diff, .difftext, .feedback6").transition().delay(200).style("opacity", 1);
-		enableScroll();
 	}
 
 	function reset() {
@@ -502,7 +515,6 @@ var svg = d3.select("#vis").append("svg")
 		d3.select("#maxdev").text(max);
 
 		d3.selectAll(".feedback11").transition().delay(2000).duration(1000).style("opacity", 1);
-		enableScroll();
 
 		for ( x = 0; x < 4; x++) {
 			for (y = 0; y < 2; y++) {
