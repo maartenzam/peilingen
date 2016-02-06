@@ -15,46 +15,46 @@
 	<body>
 		<div class="container">
 		<div id="left">
-			<div id="text-content">
-				<section id="header" class="step">
+			<!--<div id="textcontent">-->
+				<section id="step0" class="step">
 					<h1>Waarom u de peilingen beter niet gelooft</h1>
 					<p>Politieke peilingen: geliefd door journalisten, verguisd door statistici. Deze interactieve explainer zal u laten inzien waarom precies peilingresultaten met een serieuze korrel zout moeten worden genomen. En dat zonder statistische formules, dat is beloofd.</p>
-					<p class="center">
-  <i class="material-icons">expand_more</i>
+					<p class="center"><a href="#" class="next">
+                        <i class="material-icons">expand_more</i></a>
 					</p>
 				</section>
 				
-				<section class="step">
+				<section class="step" id="step1">
 					<h2>Kleur bekennen</h2>
 					<p>Hiernaast ziet u het Vlaamse kiespubliek: elke cirkel vertegenwoordigt een duizendste van de meer dan 4,2 miljoen Vlaamse kiesgerechtigden. Omdat politieke voorkeur nog steeds wat taboe is in Vlaanderen zien we de kiesintenties van de Vlaamse kiezer nog niet.</p><p>Maar op de dag van de verkiezingen moet iedereen kleur bekennen: er geldt namelijk stemplicht.</p><p><button onclick="showcolor()"class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Laat iedereen kleur bekennen</button></p>
 					<p class="feedback feedback1" id="feedback1">Mooi zo! Het Vlaamse kieslandschap is zoals je ziet versnipperd. Het is nog net geen Jackson Pollock.</p>
-					<p class="center feedback feedback1">
-  						<i class="material-icons">expand_more</i>
+					<p class="center feedback feedback1"><a href="#" class="next">
+                        <i class="material-icons">expand_more</i></a>
 					</p>
 				</section>
 				
-				<section class="step">
+				<section class="step" id="step2">
 					<h2>Tellen</h2>
 					<p>Tijd om de balans op te maken.</p>
 					<p><button onclick="sort()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Sorteer de kiezers</button></p><p class="feedback feedback2">Ok. Dat maakt het wat gemakkelijker om de stemmen te tellen.</p>
 					<p class="feedback feedback2"><button onclick="lineup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Tel de stemmen</button></p><p class="feedback feedback3">De N-VA was de duidelijke winnaar van de laatste verkiezingen, met 31,9 % van de stemmen (we gebruiken de cijfers van de verkiezingen voor het Vlaamse parlement van 25 mei 2014).</p>
-					<p class="center feedback feedback3">
-  						<i class="material-icons">expand_more</i>
+					<p class="center feedback feedback3"><a href="#" class="next">
+                        <i class="material-icons">expand_more</i></a>
 					</p>
 				</section>
 				
-				<section class="step">
+				<section class="step" id="step3">
 					<h2>Peilingen</h2>
 					<p>Verkiezingen worden maar om de paar jaar georganiseerd. Om de vinger toch aan de politieke pols te houden, schakelen heel wat media gespecialiseerde bedrijven in die kiezers opbellen om te peilen naar hun kiesintenties op dat moment.</p><p>Dat gaan we nu simuleren. Tegelijk doen we een gedachte-experiment: we gaan er van uit dat op het moment van de peiling de kiesintentie van elke kiezer samenvalt met de stem die hij of zij uitbracht bij de verkiezingen.</p><p><button onclick="moveup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Zet alles klaar voor de peiling</button></p>
 					<p class="feedback feedback4">Goed, we kunnen er aan beginnen!</p>
-					<p class="center feedback feedback4">
-  						<i class="material-icons">expand_more</i>
+					<p class="center feedback feedback4"><a href="#" class="next">
+                        <i class="material-icons">expand_more</i></a>
 					</p>
 				</section>
 
-				<section class="step">
+				<section class="step" id="step4">
 					<h2>De eerste enquêtes</h2>
-					<p>Het peilbureau vraagt mensen op welke partij ze zouden stemmen als er op dit moment verkiezingen zouden worden georganiseerd. Ter herinnering: voor dit experiment gaan we er van uit dat de kiesintenties niet veranderd zijn ten opzichte van de verkiezingen. De peilingresultaten zouden dus de verkiezingsuitslag moeten benaderen.</p><p>Met de knop hieronder kan u telkens het antwoord van een ondervraagde kiezer toevoegen aan de peilingresultaten. Wanneer u de eerste 8 anwoorden van de peiling binnen heeft, kunnen we verder met ons experiment.</p>
+					<p>Het peilbureau vraagt mensen op welke partij ze zouden stemmen als er op dit moment verkiezingen zouden worden georganiseerd.</p><p>Met de knop hieronder kan u telkens het antwoord van een ondervraagde kiezer toevoegen aan de peilingresultaten. Wanneer u de eerste 8 anwoorden van de peiling binnen heeft, kunnen we verder met ons experiment.</p>
 					<p>
 						<button onclick="choice(1)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Ondervraag 1 kiezer</button>
 					</p>
@@ -62,24 +62,24 @@
 						<button onclick="choice(10)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Lazy button</button>
 					</p>
 					<p class="feedback feedback5">Goed zo. Maar zoals je merkt: peilen is hard werken. Maar laten we de eerste resultaten eens van dichterbij bekijken.</p>
-					<p class="center feedback feedback5">
-  						<i class="material-icons">expand_more</i>
+					<p class="center feedback feedback5"><a href="#" class="next">
+                        <i class="material-icons">expand_more</i></a>
 					</p>
 				</section>
 
-				<section class="step">
+				<section class="step" id="step5">
 					<h2>De eerste resultaten</h2>
 					<p>De eerste resultaten zijn binnen, maar zoals je ziet zijn er wel flinke verschillen tussen de peilingresultaten en de resultaten van de verkiezingen. We focussen nu op het verschil tussen de peilingresultaten en de verkiezingsresultaten.</p><p>In dit experiment gaan we er van uit dat de kiesintenties samenvallen met deze op het moment van de verkiezingen. Elk verschil tussen de peiling en de verkiezingsuitslag is dus volledig te wijten aan het toeval en de onzekerheid dit inherent is aan een peiling.</p>
 					<p class="feedback feedback5"><button onclick="showdiff()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Bekijk de verschillen</button></p>
 					<p class="feedback feedback6">
   						Wow, die verschillen zijn echt nog groot. We ondervragen beter nog wat meer kiezers om de betrouwbaarheid van de resultaten te verhogen.
 					</p>
-					<p class="center feedback feedback6">
-  						<i class="material-icons">expand_more</i>
+					<p class="center feedback feedback6"><a href="#" class="next">
+                        <i class="material-icons">expand_more</i></a>
 					</p>
 				</section>
 
-				<section class="step">
+				<section class="step" id="step6">
 					<h2>Fast forward</h2>
 					<p>Laten we alles wat versnellen. Met de knop hieronder kan je in een klap bij 10 mensen peilen naar hun kiesintenties en de resultaten toevoegen aan de peiling. We gaan nu voor 100 ondervraagde kiezers. Je kan ook nog steeds telkens 1 kiezer per keer toevoegen als je dat zou willen.</p>
 					<p>
@@ -92,12 +92,12 @@
 						<button onclick="choice(100)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Lazy button</button>
 					</p>
 					<p class="feedback feedback7">Goed bezig! Al 100 mensen ondervraagd. Gemerkt dat de afwijkingen van de peilingresultaten kleiner werden naarmate er meer kiezers werden ondervraagd?</p>
-					<p class="center feedback feedback7">
-  						<i class="material-icons">expand_more</i>
+					<p class="center feedback feedback7"><a href="#" class="next">
+                        <i class="material-icons">expand_more</i></a>
 					</p>
 				</section>
 
-				<section class="step">
+				<section class="step" id="step7">
 					<h2>Een realistische peiling</h2>
 					<p>We gaan nog een stap verder: je kan nu in 1 keer 100 kiezers toevoegen en we gaan nu voor 1000 ondervraagden. Dat is de omvang van een typische politieke peiling in Vlaanderen.</p>
 					<p>
@@ -113,23 +113,20 @@
 						<button onclick="choice(1000)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Lazy button</button>
 					</p>
 					<p class="feedback feedback8">Mooi zo: een volledige peiling uitgevoerd! Maar de afwijkingen van het peilingresultaat ten opzichte van het verkiezingsresultaat is nog steeds aanzienlijk: voor <span id="partijmax"></span> bedraagt de afwijking nog steeds <span id="diffmax"></span>.</p>
-					<p class="center feedback feedback8">
-  						<i class="material-icons">expand_more</i>
+					<p class="center feedback feedback8"><a href="#" class="next">
+                        <i class="material-icons">expand_more</i></a>
 					</p>
 				</section>
 				
-				<section class="step">
+				<section class="step" id="step8">
 					<h2>Peilingen zijn maar peilingen</h2>
 					<p>Ondanks het intensieve werk om meer dan 1000 mensen te peilen naar hun kiesintenties, blijven er grote afwijkingen tussen de uiteindelijke resultaten van de peiling en hetgeen we eigenlijk willen meten: de kiesintenties van alle Vlaamse kiezers.</p><p>Die afwijkingen zijn volledig toe te schrijven aan het toeval: ook bij een steekproef van 1000 kiezers zullen er steeds partijen onder- en andere oververtegenwoordigd zijn.</p>
-					<p>
-						<button onclick="enableScroll()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Verder gaan</button>
-					</p>
-					<p class="center feedback feedback9">
-  						<i class="material-icons">expand_more</i>
+					<p class="center"><a href="#" class="next">
+                        <i class="material-icons">expand_more</i></a>
 					</p>
 				</section>
 
-				<section class="step">
+				<section class="step" id="step9">
 					<h2>8 peilingen tegelijk</h2>
 					<p>Laten we eens virtueel meerdere peilingen afnemen, op exact hetzelfde moment, met exact hetzelfde aantal ondervraagden en afgenomen met dezelfde methode. We mogen dus verwachten dat de resultaten voor alle peilingen dezelfde zijn. Alle afwijkingen zullen volledig toe te schrijven zijn aan het toeval.</p><p>Gebruik onderstaande knop om 8 peilingen van telkens 1000 Vlaamse kiezers uit te voeren.</p>
 					<p>
@@ -142,22 +139,20 @@
 					<p class="feedback feedback11">
 					Heel wat afwijkingen, niet? En dat allemaal te wijten aan puur toeval.
 					</p>
-					<p class="center feedback feedback11">
-  						<i class="material-icons">expand_more</i>
+					<p class="center feedback feedback11"><a href="#" class="next">
+                        <i class="material-icons">expand_more</i></a>
 					</p>
 
 				</section>
 
-				<section class="step">
+				<section class="step" id="step10">
 					<h2>Conclusie</h2>
 					<p>Van de 64 peilingscores waren er welgeteld <span id="zeroes" class="highlight"></span> tot op 1 cijfer na de komma correct. <span class="highlight">Belang hechten aan kleine verschillen bij peilingen is dus onzinnig</span>, cijfers na de komma vermelden heeft eigenlijk weinig zin.</p>
 					<p><span id="twos"></span> keer was de afwijking groter dan 2 procentpunten, de grootste afwijking bedroeg <span id="maxdev"></span> procentpunt. <span class="highlight">Ook bij ogenschijnlijk grote verschuivingen kan het toeval een grote factor spelen.</span></p>
-					<p>UITEINDELIJKE CONCLUSIE</p>
-					<p class="center feedback feedback11">
-  						<i class="material-icons">expand_more</i>
-					</p>
+                    <p>Als correct over peilingen wordt bericht, dan wordt de te verwachten fout (de 'foutenmarge' of 'betrouwbaarheid') vermeld. Je weet nu waar die vandaan komt: <span class="highlight">het toevel introduceert ruis op de peilingresultaten</span>. Hou daar dus rekening mee als je leest of schrijft over peilingresultaten.</p>
+
 				</section>
-			</div>
+			<!--</div>-->
 		</div>
 		
 		<div id="right">
@@ -167,7 +162,7 @@
 	
 	</div>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-		<script src="js/scroll.js"></script>
+		<!--<script src="js/scroll.js"></script>-->
 		<script src="js/polls.js"></script>
 	
 	</body>
