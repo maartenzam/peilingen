@@ -37,7 +37,10 @@ p {
 	bottom: 0;
 	right: 0;
 	z-index: 10;
-	/*border-left: 1px solid #000000;*/
+}
+
+text {
+    font-family: "Montserrat";
 }
 
 .step {
@@ -60,12 +63,6 @@ p {
 	opacity: 0;
 }
 
-button {
-	background-color: #AB47BC;
-    width: 100%;
-    margin: auto;
-}
-
 .center {
 	text-align: center;
 }
@@ -74,9 +71,28 @@ button {
 	font-weight: bold;
 }
 
-.next .material-icons {
-    font-size: 32px;
-    color: #25b552;
+#progress {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #008080;
+    width: 3px;
+}
+
+.mdl-button--primary {
+    font-family: "Montserrat";
+    font-size: 12px;
+    border-radius: 0px;
+}
+
+.mdl-button--fab.mdl-button--colored {
+    background: #008080;
+    color: #ffffff;
+}
+
+.mdl-button--fab.mdl-button--colored:hover {
+    background: #009688;
+    color: #ffffff;
 }
 
 #credits {
@@ -88,5 +104,5 @@ button {
 }
 
 #creditslink {
-    color: #673AB7;
+    color: #3f51b5;
 }

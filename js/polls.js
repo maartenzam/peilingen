@@ -65,6 +65,12 @@ var svg = d3.select("#vis").append("svg")
 		circlesinit(partijen[j].score*10, partijen[j].color, partijen[j].id, partijen[j].cumul, partijen[j].score);
 	}
     
+    var stepcount = d3.selectAll(".step").size();
+    //progressbar
+    var progress = d3.select("#left").append("div")
+        .style("height", 0 + "px")
+        .attr("id", "progress");
+
     //navigation of the steps
     var activestep = 0;
     //all text starts at the bottom
@@ -73,16 +79,17 @@ var svg = d3.select("#vis").append("svg")
     var header = d3.select("#step0").style("visibility", "visible").style("top", "0px");
     var nextstep = d3.select("#step1").style("visibility", "visible").style("opacity", 0.2).style("top", textposition + "px");
     
-    d3.selectAll("a.next").on("click", function() {
+    d3.selectAll("button.next").on("click", function() {
         var currstep = "#step" + activestep;
         var nextstep = "#step" + (activestep + 1);
         var secnextstep = "#step" + (activestep + 2);
         
         d3.select(currstep).transition().duration(2000).style("top", -textposition + "px").style("opacity", 0);
         d3.select(nextstep).style("visibility", "visible").transition().duration(2000).style("top", "0px").style("opacity", 1);
-        //d3.select(secnextstep).transition().duration(2000).style("visibility", "visible").style("opacity", 0.2).style("top", textposition + "px");
+        d3.select(secnextstep).transition().duration(2000).style("visibility", "visible").style("opacity", 0.2).style("top", textposition + "px");
         
         activestep = activestep + 1;
+        d3.select("#progress").transition().duration(2000).style("height", (activestep)*height/stepcount + "px");
     });
 
 	function showcolor() {
@@ -133,7 +140,7 @@ var svg = d3.select("#vis").append("svg")
 				.attr("x", function(d,i) {return xScale(d.cumul - d.score/2); })
 				.attr("y", height*0.8 - 15)
 				.style("fill", function(d) { return d.color; })
-				.style("font-size", 20)
+				.style("font-size", 16)
 				.style("opacity", 0)
 				.text(function(d) {return d.score ;})
 				.attr("id", function(d,i) {return "aantal" + i; })
@@ -149,7 +156,7 @@ var svg = d3.select("#vis").append("svg")
 				.attr("x", function(d,i) {return xScale(d.cumul - d.score/2); })
 				.attr("y", height*0.8 + 40)
 				.style("fill", function(d) { return d.color; })
-				.style("font-size", 20)
+				.style("font-size", 16)
 				.style("opacity", 0)
 				.text(function(d) {return d.naam ;})
 				//.attr("id", function(d,i) {return "aantal" + i; })
@@ -190,7 +197,7 @@ var svg = d3.select("#vis").append("svg")
 			.append("text")
 			.attr("class", "polltext")
 			.attr("text-anchor", "middle")
-			.style("font-size", 20)
+			.style("font-size", 16)
 			.attr("x", 0)
 			.attr("y", height*0.9 - 60)
 			.style("fill", function(d) { return d.color; })
@@ -216,7 +223,7 @@ var svg = d3.select("#vis").append("svg")
 			.append("text")
 			.attr("class", "difftext")
 			.attr("text-anchor", "middle")
-			.style("font-size", 18)
+			.style("font-size", 16)
 			.attr("x", 0)
 			.attr("y", function(d,i) { return i*24 + height/4 + 16})
 			.style("fill", function(d) { return d.color; })
