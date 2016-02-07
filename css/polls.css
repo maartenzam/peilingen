@@ -44,8 +44,8 @@ text {
 }
 
 .step {
-	/*margin-bottom: 500px;*/
-	height: 800px;
+	/*margin-bottom: 500px;
+	height: 800px;*/
 	margin-top: 0px;
     position: absolute;
     top: 20px;
@@ -67,7 +67,7 @@ text {
 	text-align: center;
 }
 .highlight {
-	color: #673AB7;
+	color: #3f51b5;
 	font-weight: bold;
 }
 
@@ -75,7 +75,7 @@ text {
     position: absolute;
     top: 0px;
     left: 0px;
-    background-color: #008080;
+    background-color: #3f51b5;
     width: 3px;
 }
 
@@ -83,15 +83,16 @@ text {
     font-family: "Montserrat";
     font-size: 12px;
     border-radius: 0px;
+    min-width: 180px;
 }
 
 .mdl-button--fab.mdl-button--colored {
-    background: #008080;
+    background: #3f51b5;
     color: #ffffff;
 }
 
 .mdl-button--fab.mdl-button--colored:hover {
-    background: #009688;
+    background: #5767c1;
     color: #ffffff;
 }
 

@@ -1,6 +1,6 @@
 var width = document.getElementById("vis").clientWidth;
 var height = document.getElementById("vis").clientHeight;
-var textposition = height - 130;
+var textposition = height - 90;
 var svg = d3.select("#vis").append("svg")
       .attr("width", width)
       .attr("height", height);
@@ -86,7 +86,15 @@ var svg = d3.select("#vis").append("svg")
         
         d3.select(currstep).transition().duration(2000).style("top", -textposition + "px").style("opacity", 0);
         d3.select(nextstep).style("visibility", "visible").transition().duration(2000).style("top", "0px").style("opacity", 1);
-        d3.select(secnextstep).transition().duration(2000).style("visibility", "visible").style("opacity", 0.2).style("top", textposition + "px");
+        //show teaser if there is enough space
+        var stepheight = d3.select(nextstep).node().getBoundingClientRect().height;
+        console.log(stepheight);
+        if (height - stepheight > 100) {
+            d3.select(secnextstep).transition().duration(2000)
+                .style("visibility", "visible")
+                .style("opacity", 0.2)
+                .style("top", textposition + "px");
+        }
         
         activestep = activestep + 1;
         d3.select("#progress").transition().duration(2000).style("height", (activestep)*height/stepcount + "px");
@@ -403,7 +411,7 @@ var svg = d3.select("#vis").append("svg")
 	}
 
 	function showdiff() {
-		d3.selectAll("rect.diff, .difftext, .feedback6").transition().delay(200).style("opacity", 1);
+		d3.selectAll("rect.diff, .difftext, .feedback6").transition().delay(800).style("opacity", 1);
 	}
 
 	function reset() {
