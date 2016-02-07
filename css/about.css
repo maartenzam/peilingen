@@ -1,0 +1,35 @@
+body {
+    background-image: url("../img/bubbles.png");
+    font-family: 'Crimson Text', serif;
+}
+
+#about {
+    max-width: 40em;
+    margin: auto;
+    background-color: #ffffff;
+    opacity: 0.9;
+    padding: 10px;
+}
+
+h1 {
+    font-size: 36px;
+    text-align: center;
+    font-weight: 500;
+}
+
+h2 {
+    font-weight: 500;
+}
+
+p {
+    font-size: 20px;
+}
+
+#back {
+    position: absolute;
+    top: 10px;
+}
+
+#back a {
+    color: #AB47BC;
+}
